@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto mt-4">
+  <div class="container mx-auto mt-4 px-2 md:px-0">
     <div class="flex flex-col gap-2 md:flex-row justify-between items-start md:items-end">
       <div class="flex gap-3">
         <FilterVue @onBrendFilter="brendfunc" />
