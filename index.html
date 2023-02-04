@@ -3,12 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- brand boyicha filter qilish bu apida yoq ekan shunig uchun description boyicha filter qildim -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
     <title>Products App</title>
+    <style>
+      [v-cloak] > * {
+        display: none;
+      }
+
+      #loading {
+        display: none;
+        width: fit-content;
+        margin: 0 auto;
+        padding: 20% 0;
+      }
+
+      [v-cloak] + #loading {
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <div id="app" v-cloak></div>
+    <div id="loading">
+      <img src="../src/assets/loading.gif" alt="Loading..." />
+    </div>
   </body>
 </html>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,7 +12,7 @@ html {
   padding: 0;
 }
 body {
-  font-family: sans-serif;
+  font-family: "Rubik", sans-serif;
   background-color: aquamarine;
   overflow-x: hidden;
   color: #0f0f0f;

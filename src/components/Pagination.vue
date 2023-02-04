@@ -38,7 +38,7 @@ function handlePageClick(pageNumber) {
 
 <style>
 .paginationUl {
-  @apply flex border border-gray-300 bg-gray-100 divide-x cursor-pointer rounded-sm overflow-hidden;
+  @apply flex border border-gray-300 text-xl bg-gray-100 divide-x cursor-pointer rounded-sm overflow-hidden;
 }
 .page-item {
   @apply px-2 text-center hover:bg-gray-200 duration-100;

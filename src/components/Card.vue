@@ -9,12 +9,14 @@
     </div>
     <div class="p-4 pb-8 space-y-2">
       <div class="flex items-center justify-between flex-wrap">
-        <RouterLink :to="'/products/' + data.id" class="font-semibold line-clamp-1 hover:text-blue-500 duration-200">{{
-          data.title
-        }}</RouterLink>
+        <RouterLink
+          :to="'/products/' + data.id"
+          class="font-semibold line-clamp-1 hover:text-blue-500 duration-200 text-xl"
+          >{{ data.title }}</RouterLink
+        >
         <div>
-          <i v-for="i in Math.floor(data.rating)" class="fas fa-star text-sm text-yellow-500"></i>
-          <i v-for="i in 5 - Math.floor(data.rating)" class="far fa-star text-sm text-yellow-500"></i>
+          <i v-for="i in Math.round(data.rating)" class="fas fa-star text-sm text-yellow-500"></i>
+          <i v-for="i in 5 - Math.round(data.rating)" class="far fa-star text-sm text-yellow-500"></i>
         </div>
       </div>
       <div class="flex justify-between items-end">

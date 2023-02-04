@@ -19,6 +19,9 @@
       <Pagination :data="data" @handlePaginate="handlePaginate" />
     </div>
   </div>
+  <div v-if="loading" class="fixed inset-0 flex items-center justify-center">
+    <img class="" :src="svg" alt="loading..." />
+  </div>
 </template>
 
 <script setup>
@@ -27,9 +30,11 @@ import axios from "axios";
 import CardVue from "../components/Card.vue";
 import FilterVue from "../components/Filter.vue";
 import Pagination from "../components/Pagination.vue";
+import svg from "../assets/loading.gif";
 
 const data = ref([]);
 const isReset = ref(false);
+const loading = ref(true);
 
 function handlePaginate(pageNumber = 0) {
   const skip = ref(pageNumber - 1);
@@ -44,14 +49,17 @@ function handleReset() {
 function brendfunc(val) {
   getLists(`/search?q=${val}&limit=12&skip=0`);
   isReset.value = true;
-} /// brand boyicha search qilish bu apida yoq ekan
+} /// brand boyicha filter qilish bu apida yoq ekan shunig uchun description boyicha filter qildim
 
 async function getLists(val) {
   try {
+    loading.value = true;
     const res = await axios.get(`/products${val}`);
     data.value = res.data;
   } catch (e) {
     console.log(e);
+  } finally {
+    loading.value = false;
   }
 }
 
