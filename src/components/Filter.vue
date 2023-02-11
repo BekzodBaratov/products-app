@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-2 items-end">
-    <p>Filter by Brand:</p>
+    <p>Filter by Description:</p>
     <form class="flex gap-3 items-end" action="filter">
       <input
         v-model="brandName"
@@ -15,13 +15,15 @@
 
 <script setup>
 import { ref } from "vue";
+import { useProductStore } from "../store";
+const store = useProductStore();
 
 const brandName = ref("");
 
-const emit = defineEmits(["onBrendFilter"]);
-
-function handleform() {
-  emit("onBrendFilter", brandName.value.toLowerCase());
+async function handleform() {
+  if (!brandName.value) return alert("Filter value is not a valid brand name");
+  await store.fetchProducts(brandName.value);
   brandName.value = "";
+  store.toggleResetBtn(true);
 }
 </script>

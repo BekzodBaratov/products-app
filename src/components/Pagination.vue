@@ -1,7 +1,7 @@
 <template>
   <Paginate
-    :v-model="12"
-    :page-count="Math.ceil(data.total / data.limit)"
+    :v-model="store.limit"
+    :page-count="pageCount"
     :page-range="3"
     :margin-pages="2"
     :click-handler="handlePageClick"
@@ -13,26 +13,17 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
 import Paginate from "vuejs-paginate-next";
+import { useProductStore } from "../store";
 
-const emit = defineEmits(["handlePaginate"]);
-const props = defineProps(["data"]);
-const data = ref({ limit: 12, total: 100 }); //default
-
-watch(
-  () => props.data,
-  () => {
-    if (!props.data.products) return;
-    data.value = {
-      limit: props.data.limit,
-      total: props.data.total,
-    };
-  }
-);
+const store = useProductStore();
+const { pageCount } = storeToRefs(store);
+const { setSkip, fetchProducts } = store;
 
 function handlePageClick(pageNumber) {
-  emit("handlePaginate", pageNumber);
+  setSkip(pageNumber - 1);
+  fetchProducts();
 }
 </script>
 

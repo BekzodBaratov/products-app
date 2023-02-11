@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data?.title" class="bg-white rounded-md overflow-hidden group shadow-md">
+  <div class="group" v-if="data?.title">
     <div class="img h-60 overflow-hidden">
       <img
         class="w-full h-full group-hover:scale-110 group-hover:brightness-75 duration-200 object-cover object-center"

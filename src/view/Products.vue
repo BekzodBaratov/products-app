@@ -1,69 +1,49 @@
 <template>
-  <div class="container mx-auto mt-4 px-2 md:px-0">
+  <div v-if="products" class="container mx-auto mt-4 px-2 md:px-0">
     <div class="flex flex-col gap-2 md:flex-row justify-between items-start md:items-end">
       <div class="flex gap-3">
-        <FilterVue @onBrendFilter="brendfunc" />
-        <button v-if="isReset" @click="handleReset" class="btn bg-blue-500">Reset <i class="fas fa-reset"></i></button>
+        <FilterVue />
+        <button v-if="resetBtn" @click="handleReset" class="btn bg-blue-500">Reset <i class="fas fa-reset"></i></button>
       </div>
       <div class="flex gap-2">
         <p class="s font-semibold">All Products:</p>
-        <p class="">{{ data.total }}</p>
+        <p class="">{{ total }}</p>
       </div>
     </div>
 
-    <div v-if="data.products" class="my-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <CardVue v-for="product in data.products" :key="product.id" :data="product" />
+    <div class="my-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div v-for="product in products" :key="product.id" class="bg-white rounded-md overflow-hidden shadow-md">
+        <CardVue :data="product" />
+      </div>
     </div>
 
-    <div v-if="data.products" class="pb-6 flex justify-center">
-      <Pagination :data="data" @handlePaginate="handlePaginate" />
+    <div class="pb-6 flex justify-center">
+      <Pagination />
     </div>
   </div>
-  <div v-if="loading" class="fixed inset-0 flex items-center justify-center">
-    <img class="" :src="svg" alt="loading..." />
+  <div v-if="loading" class="fixed inset-0 z-50 bg-[#0006] backdrop:blur-md flex items-center justify-center">
+    <img :src="svg" alt="loading..." />
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import axios from "axios";
+import { useProductStore } from "../store";
 import CardVue from "../components/Card.vue";
 import FilterVue from "../components/Filter.vue";
 import Pagination from "../components/Pagination.vue";
 import svg from "../assets/loading.gif";
+import { storeToRefs } from "pinia";
 
-const data = ref([]);
-const isReset = ref(false);
-const loading = ref(true);
+const store = useProductStore();
+const { products, resetBtn, total, loading } = storeToRefs(store);
+const { fetchProducts, setSkip, toggleResetBtn } = store;
 
-function handlePaginate(pageNumber = 0) {
-  const skip = ref(pageNumber - 1);
-  getLists(`?limit=12&skip=${skip.value * 12}`);
+store.fetchProducts();
+toggleResetBtn(false);
+
+async function handleReset() {
+  setSkip(0);
+  await fetchProducts();
+  toggleResetBtn(false);
 }
-
-function handleReset() {
-  getLists("?limit=12&skip=0");
-  isReset.value = false;
-}
-
-function brendfunc(val) {
-  getLists(`/search?q=${val}&limit=12&skip=0`);
-  isReset.value = true;
-} /// brand boyicha filter qilish bu apida yoq ekan shunig uchun description boyicha filter qildim
-
-async function getLists(val) {
-  try {
-    loading.value = true;
-    const res = await axios.get(`/products${val}`);
-    data.value = res.data;
-  } catch (e) {
-    console.log(e);
-  } finally {
-    loading.value = false;
-  }
-}
-
-onMounted(() => {
-  getLists("?limit=12&skip=0");
-});
 </script>
