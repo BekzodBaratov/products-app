@@ -5,7 +5,7 @@ export const useProductStore = defineStore("products", {
   state: () => ({
     loading: false,
     products: [],
-    limit: 12,
+    limit: 20,
     skip: 0,
     total: null,
     resetBtn: false,
